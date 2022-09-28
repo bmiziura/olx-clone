@@ -1,6 +1,8 @@
 import { z } from "zod"
 import { createProtectedRouter } from "../protected-router"
 
+import { prisma } from "@/server/db/client"
+
 export const likedPostsRouter = createProtectedRouter()
   .query("isLiked", {
     input: z.string(),

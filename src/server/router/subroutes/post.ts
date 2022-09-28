@@ -4,6 +4,8 @@ import { z } from "zod"
 import generateString from "../../utils/generate-string"
 import { createProtectedRouter } from "../protected-router"
 
+import { prisma } from "@/server/db/client"
+
 const generateSlug: any = async (title: string) => {
   const finalStr = `${title
     .toLowerCase()
