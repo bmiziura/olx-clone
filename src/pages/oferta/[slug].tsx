@@ -37,6 +37,8 @@ import { A11y, Navigation, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { authOptions } from "../api/auth/[...nextauth]"
 
+import { prisma } from "@/server/db/client"
+
 type Post = {
   id: string
   title: string
