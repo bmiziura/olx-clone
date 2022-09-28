@@ -1,9 +1,8 @@
 import { MouseEventHandler, ReactNode } from "react"
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   padding?: string
   width?: string
-  type?: any
   border?: boolean
   onClick?: MouseEventHandler<any>
   children: ReactNode

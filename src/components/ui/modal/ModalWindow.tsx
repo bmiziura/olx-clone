@@ -7,8 +7,8 @@ const ModalWindow = ({
   closeWindow,
   children,
 }: {
-  closed: any
-  closeWindow: any
+  closed: boolean
+  closeWindow: () => void
   children: ReactNode
 }) => {
   return (

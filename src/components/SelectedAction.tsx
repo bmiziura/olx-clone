@@ -10,7 +10,7 @@ import {
 type Action = {
   icon: ReactElement
   name: string
-  onAction: (items: any) => void
+  onAction: (items: SelectItem[]) => void
 }
 
 export const SelectedContext = createContext<{
@@ -24,13 +24,7 @@ type SelectItem = {
   selected: boolean
 }
 
-const SelectedAction = ({
-  actions = [],
-  children,
-}: {
-  actions?: Action[]
-  children: ReactNode
-}) => {
+const SelectedAction = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<SelectItem[]>([])
 
   return (

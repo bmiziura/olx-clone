@@ -150,10 +150,6 @@ export const PostsNavigation = () => {
   )
 }
 
-type PostsListProps = {
-  status: any
-}
-
 export const PostsList = ({ status = "ACTIVE" }: { status: any }) => {
   const { data, isLoading, isRefetching, isError, refetch } = trpc.useQuery(
     ["posts:getPosts", { status }],

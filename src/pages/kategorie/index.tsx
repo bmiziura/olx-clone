@@ -12,15 +12,12 @@ import { fetchCategories } from "@/server/db/categories"
 import { Category } from "@prisma/client"
 import { NextPage } from "next"
 import Head from "next/head"
-import { useRouter } from "next/router"
 
 type Props = {
   categories: Category[]
 }
 
 const CategoriesPage: NextPage<Props> = ({ categories }) => {
-  const router = useRouter()
-
   return (
     <>
       <Head>

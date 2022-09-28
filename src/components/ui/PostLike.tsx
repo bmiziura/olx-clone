@@ -1,4 +1,4 @@
-const PostLike = ({ postId }: { postId: string }) => {
+const PostLike = () => {
   return <div></div>
 }
 

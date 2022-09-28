@@ -1,4 +1,4 @@
-const PostList = ({}: {}) => {
+const PostList = () => {
   return (
     <>
       <div>Filters</div>

@@ -5,9 +5,7 @@ import MobileBottomNavigation from "@/components/ui/mobile/MobileBottomNavigatio
 import { NextPage } from "next"
 import Head from "next/head"
 
-type Props = {}
-
-const CategoryPostsPage: NextPage<Props> = ({}) => {
+const CategoryPostsPage: NextPage = () => {
   return (
     <>
       <Head>

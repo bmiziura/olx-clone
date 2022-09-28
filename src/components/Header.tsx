@@ -91,6 +91,7 @@ const ProfileHover = ({ session }: { session: Session }) => {
             <div className="relative w-8 h-8">
               <Image
                 src={session.user?.image || ""}
+                alt={session.user?.name || "userImage"}
                 layout="fill"
                 className="rounded-full"
               />

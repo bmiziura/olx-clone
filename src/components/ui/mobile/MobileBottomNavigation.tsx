@@ -17,7 +17,7 @@ import {
 } from "react-icons/md"
 
 const MobileBottomNavigation = () => {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
 
   const router = useRouter()
 
