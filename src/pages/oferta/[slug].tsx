@@ -290,6 +290,8 @@ const DetailsSection = ({ post }: { post: Post }) => {
     style: "narrow",
   })
 
+  console.log(post.description)
+
   return (
     <SectionContainer>
       <div className="mt-4 md:mt-0 border-b-[1px] md:border-b-0 pb-4 mb-4">
@@ -305,9 +307,13 @@ const DetailsSection = ({ post }: { post: Post }) => {
           <li className="border-[1px] px-2 py-1 rounded-sm">Przesyłka OLX</li>
         </ul>
 
-        <div className="border-t-[1px] md:border-t-0 mt-4 pt-4">
+        <div className="border-t-[1px] md:border-t-0 mt-4 pt-4 w-full">
           <span className="font-bold">OPIS</span>
-          <p className="leading-[1.2rem] mt-4">{post.description}</p>
+          <div>
+            <span className="break-all">
+              ghfbsdihfgbsdihfgbisdhbfgihsdbfgsdibfghisdbfgihsdbhifgbsdihfgbsdihfgbhisdfgbsdihfgbhi
+            </span>
+          </div>
         </div>
       </div>
     </SectionContainer>
@@ -518,7 +524,7 @@ const OfferPage: NextPage<PostProps> = ({ post }) => {
       </Head>
 
       <MobilePageContainer>
-        {post.status === "PENDING" && (
+        {/* {post.status === "PENDING" && (
           <div>
             To ogłoszenie jest jeszcze weryfikowane przez naszą moderację!
           </div>
@@ -528,7 +534,7 @@ const OfferPage: NextPage<PostProps> = ({ post }) => {
           <div>
             Przeglądasz ofertę, która została zakończona przez sprzedającego!
           </div>
-        )}
+        )} */}
 
         <PostHeader category={post.category} />
 

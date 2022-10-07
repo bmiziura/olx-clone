@@ -2,6 +2,10 @@
 
 Olx Clone written in TypeScript using T3 Stack (TypeScript, React [Next.JS], Tailwind, tRPC and Prisma).
 
+## Demo
+
+Demo: https://olx-clone-nextjs.vercel.app/
+
 ## Features
 
 - Fully Responsive Website (Mobile / Desktop)
