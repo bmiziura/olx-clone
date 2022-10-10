@@ -24,21 +24,19 @@ const SearchPage: NextPage = () => {
 
   const debouncedOptions = useDebounce<SearchOptions>(searchOptions, 1000)
 
-  const updateSearchPath = (
-    options: SearchOptions,
-    fromSubmit: boolean = false
-  ) => {
+  const updateSearchPath = (options: SearchOptions, fromSubmit: boolean) => {
     router.push({
       pathname: "/search",
       query: {
         searchText: options.text,
         fromSubmit,
+        category: category,
       },
     })
   }
 
   useEffect(() => {
-    updateSearchPath(debouncedOptions)
+    // updateSearchPath(debouncedOptions, false)
   }, [debouncedOptions])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +57,7 @@ const SearchPage: NextPage = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       >
-        <Link href={`/?searchFromSubmit=true`}>
+        <Link href="/">
           <a className="pr-4 cursor-pointer md:hidden">
             <FaChevronLeft className="w-6 h-6" />
           </a>

@@ -36,13 +36,7 @@ const PostCard = ({ post }: { post: any }) => {
   )
 }
 
-const PostFilters = ({
-  searchOptions,
-  setSearchOptions,
-}: {
-  searchOptions?: SearchOptions
-  setSearchOptions?: Dispatch<SetStateAction<SearchOptions>>
-}) => {
+const PostFilters = () => {
   return <div></div>
 }
 
@@ -54,7 +48,10 @@ const PostList = ({
   setSearchOptions: Dispatch<SetStateAction<SearchOptions>>
 }) => {
   const { data, isLoading, isRefetching, isError, refetch } = trpc.useQuery(
-    ["search:searchPosts", { searchText: searchOptions.text }],
+    [
+      "search:searchPosts",
+      { searchText: searchOptions.text, category: searchOptions.category },
+    ],
     {
       refetchOnWindowFocus: false,
     }
@@ -90,10 +87,7 @@ const PostList = ({
   if (!data || isError) {
     return (
       <div className="container mx-auto">
-        <PostFilters
-          searchOptions={searchOptions}
-          setSearchOptions={setSearchOptions}
-        />
+        <PostFilters />
 
         <div className="mt-4 flex flex-col gap-4 items-center justify-center">
           <div className="flex flex-col items-center justify-center">
@@ -121,7 +115,7 @@ const PostList = ({
               height="180"
               viewBox="0 0 180 180"
             >
-              <g fill="none" fill-rule="evenodd">
+              <g fill="none" fillRule="evenodd">
                 <path
                   fill="#002F34"
                   d="M106.527 120.752l-17.874-8.265 2.685-5.807 17.874 8.264zM43.558 82.6C28.18 75.49 9.95 82.192 2.84 97.57c-7.11 15.378-.407 33.608 14.97 40.72 15.379 7.11 33.61.407 40.72-14.971 7.11-15.378.407-33.608-14.97-40.719m-7.95 17.19c5.875 2.717 8.445 9.706 5.728 15.581-2.716 5.875-9.705 8.444-15.58 5.727-5.875-2.716-8.444-9.705-5.728-15.58 2.716-5.874 9.705-8.444 15.58-5.728"

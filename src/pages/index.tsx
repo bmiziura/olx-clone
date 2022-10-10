@@ -20,13 +20,11 @@ interface HomePageProps {
 const HomeSearchBar = () => {
   const router = useRouter()
 
-  const { searchFromSubmit = true } = router.query
-
   const [text, setText] = useState("")
 
   const debouncedValue = useDebounce(text, 1000)
 
-  const redirectToSearch = (value: string, fromSubmit: boolean = false) => {
+  const redirectToSearch = (value: string, fromSubmit: boolean) => {
     router.push({
       pathname: "/search",
       query: {
@@ -38,7 +36,7 @@ const HomeSearchBar = () => {
 
   useEffect(() => {
     if (debouncedValue && debouncedValue.length > 0) {
-      redirectToSearch(debouncedValue)
+      redirectToSearch(debouncedValue, false)
     }
   }, [debouncedValue])
 
@@ -49,7 +47,6 @@ const HomeSearchBar = () => {
   return (
     <SearchBar
       text={text}
-      autoFocus={searchFromSubmit !== "true"}
       handleChange={handleChange}
       handleSubmit={(event) => {
         event.preventDefault()

@@ -17,7 +17,7 @@ export default MobileCategoryList
 
 const CategoryItem = ({ category }: { category: Category }) => {
   return (
-    <Link href={`/kategorie/${category.slug}`}>
+    <Link href={`/search/?category=${category.slug}`}>
       <a>
         <div className="bg-red-700 bg-opacity-20 rounded-md py-4 px-4 flex justify-between items-center cursor-pointer select-none">
           <div className="flex gap-2 items-center">

@@ -33,7 +33,7 @@ export const CategoryList = ({ categories }: { categories: Category[] }) => {
 const CategoryListItem = ({ category }: { category: Category }) => {
   return (
     <div className="snap-start">
-      <Link href={`/kategorie/${category.slug}`}>
+      <Link href={`/search/?category=${category.slug}`}>
         <a>
           <div className="flex flex-col items-center justify-center group gap-1">
             <div
