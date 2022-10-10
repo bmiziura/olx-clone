@@ -25,7 +25,7 @@ function useLike(id: string) {
 
   const likePostHandler = async () => {
     if (!data?.user) {
-      router.push("/api/auth")
+      router.push("/api/auth/signin")
       return
     }
 
