@@ -4,6 +4,7 @@ import Head from "next/head"
 import Link from "next/link"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import {
+  MdFavorite,
   MdFavoriteBorder,
   MdFullscreen,
   MdOutlineLocationOn,
@@ -37,6 +38,7 @@ import { A11y, Navigation, Pagination } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { authOptions } from "../api/auth/[...nextauth]"
 
+import useLike from "@/hooks/useLike"
 import { prisma } from "@/server/db/client"
 
 type Post = {
@@ -74,7 +76,13 @@ const SectionContainer = ({ children }: { children: ReactNode }) => {
   )
 }
 
-const PostHeader = ({ category }: { category: PostCategory }) => {
+const PostHeader = ({
+  post,
+  category,
+}: {
+  post: Post
+  category: PostCategory
+}) => {
   const router = useRouter()
 
   const [scrolled, setScrolled] = useState(false)
@@ -97,6 +105,8 @@ const PostHeader = ({ category }: { category: PostCategory }) => {
     }
   }, [scrolled])
 
+  const { isLiked, likePost } = useLike(post.id)
+
   return (
     <div className="fixed md:relative w-full md:bg-transparent z-[999]">
       <div
@@ -115,7 +125,13 @@ const PostHeader = ({ category }: { category: PostCategory }) => {
             </div>
             <div className="flex md:hidden items-center gap-4">
               <MdOutlineShare className="w-6 h-6" />
-              <MdFavoriteBorder className="w-6 h-6" />
+              <div className="cursor-pointer" onClick={likePost}>
+                {isLiked ? (
+                  <MdFavorite className="w-6 h-6" />
+                ) : (
+                  <MdFavoriteBorder className="w-6 h-6" />
+                )}
+              </div>
               <div></div>
             </div>
             <div className="hidden md:block text-sm underline">
@@ -524,19 +540,7 @@ const OfferPage: NextPage<PostProps> = ({ post }) => {
       </Head>
 
       <MobilePageContainer>
-        {/* {post.status === "PENDING" && (
-          <div>
-            To ogłoszenie jest jeszcze weryfikowane przez naszą moderację!
-          </div>
-        )}
-
-        {post.status === "ENDED" && (
-          <div>
-            Przeglądasz ofertę, która została zakończona przez sprzedającego!
-          </div>
-        )} */}
-
-        <PostHeader category={post.category} />
+        <PostHeader post={post} category={post.category} />
 
         <MobileImageContainer post={post} />
 

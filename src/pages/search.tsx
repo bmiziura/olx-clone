@@ -1,7 +1,9 @@
+import Footer from "@/components/Footer"
 import PostList from "@/components/PostList"
 import SearchBar from "@/components/SearchBar"
 import useDebounce from "@/hooks/useDebounce"
 import { NextPage } from "next"
+import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
@@ -54,25 +56,38 @@ const SearchPage: NextPage = () => {
   }
 
   return (
-    <div>
-      <SearchBar
-        text={searchOptions.text}
-        autoFocus={fromSubmit !== "true"}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-      >
-        <Link href="/">
-          <a className="pr-4 cursor-pointer md:hidden">
-            <FaChevronLeft className="w-6 h-6" />
-          </a>
-        </Link>
-      </SearchBar>
+    <>
+      <Head>
+        <title>Wyszukiwanie ogłoszeń - Sprzedam, kupię na OLX.pl</title>
+        <meta
+          name="description"
+          content="Ogłoszenia - Sprzedam, kupię na OLX.pl"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-      <PostList
-        searchOptions={debouncedOptions}
-        setSearchOptions={setSearchOptions}
-      />
-    </div>
+      <main>
+        <SearchBar
+          text={searchOptions.text}
+          autoFocus={fromSubmit !== "true"}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+        >
+          <Link href="/">
+            <a className="pr-4 cursor-pointer md:hidden">
+              <FaChevronLeft className="w-6 h-6" />
+            </a>
+          </Link>
+        </SearchBar>
+
+        <PostList
+          searchOptions={debouncedOptions}
+          setSearchOptions={setSearchOptions}
+        />
+      </main>
+
+      <Footer showBusiness={false} mobile={true} />
+    </>
   )
 }
 

@@ -1,38 +1,61 @@
+import useLike from "@/hooks/useLike"
 import { SearchOptions } from "@/pages/search"
 
 import { trpc } from "@/utils/trpc"
 import Link from "next/link"
-import { Dispatch, SetStateAction } from "react"
-import { MdFavoriteBorder } from "react-icons/md"
+import { Dispatch, SetStateAction, useEffect } from "react"
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md"
 import { DarkButton } from "./ui/buttons/Button"
 
-const PostCard = ({ post }: { post: any }) => {
-  return (
-    <Link href={`/oferta/${post.slug}`}>
-      <a>
-        <article className="bg-white p-4 rounded-md">
-          <div className="flex gap-8">
-            <div className="w-64 aspect-video bg-gray-800 text-white">Logo</div>
-            <div className="flex flex-col justify-between w-full">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg link">{post.title}</h2>
-                <span className="font-bold">{post.price} zł</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-primary-lg">{post.city}</span>
+export const PostCard = ({
+  post,
+  onLike,
+}: {
+  post: any
+  onLike?: (isLiked: boolean) => void
+}) => {
+  const { isLiked, likePost } = useLike(post.id)
 
-                <div className="group flex items-center gap-2">
-                  <span className="hidden text-sm group-hover:block">
-                    Obserwuj
-                  </span>
-                  <MdFavoriteBorder />
+  useEffect(() => {
+    if (onLike) onLike(isLiked)
+  }, [isLiked])
+
+  return (
+    <div className="relative">
+      <Link href={`/oferta/${post.slug}`}>
+        <a>
+          <article className="bg-white p-4 rounded-md">
+            <div className="flex gap-8">
+              <div className="w-64 aspect-video bg-gray-800 text-white">
+                Logo
+              </div>
+              <div className="flex flex-col justify-between w-full">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg link">{post.title}</h2>
+                  <span className="font-bold">{post.price} zł</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-primary-lg">{post.city}</span>
                 </div>
               </div>
             </div>
-          </div>
-        </article>
-      </a>
-    </Link>
+          </article>
+        </a>
+      </Link>
+      <div className="absolute bottom-4 right-4">
+        <div
+          className="group flex items-center gap-2 cursor-pointer"
+          onClick={() => {
+            likePost()
+          }}
+        >
+          <span className="hidden text-sm group-hover:block">
+            {isLiked ? "Przestań obserwować" : "Obserwuj"}
+          </span>
+          {isLiked ? <MdFavorite /> : <MdFavoriteBorder />}
+        </div>
+      </div>
+    </div>
   )
 }
 
