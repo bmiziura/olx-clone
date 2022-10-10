@@ -326,9 +326,7 @@ const DetailsSection = ({ post }: { post: Post }) => {
         <div className="border-t-[1px] md:border-t-0 mt-4 pt-4 w-full">
           <span className="font-bold">OPIS</span>
           <div>
-            <span className="break-all">
-              ghfbsdihfgbsdihfgbisdhbfgihsdbfgsdibfghisdbfgihsdbhifgbsdihfgbsdihfgbhisdfgbsdihfgbhi
-            </span>
+            <span className="break-all">{post.description}</span>
           </div>
         </div>
       </div>
