@@ -9,12 +9,16 @@ import Footer from "@/components/Footer"
 import SearchBar from "@/components/SearchBar"
 import MobileBottomNavigation from "@/components/ui/mobile/MobileBottomNavigation"
 import useDebounce from "@/hooks/useDebounce"
-import { Category } from "@prisma/client"
+import { Category, Post } from "@prisma/client"
 import { useRouter } from "next/router"
 import { ChangeEvent, useEffect, useState } from "react"
 
+import RecentPosts from "@/components/RecentPosts"
+import { prisma } from "@/server/db/client"
+
 interface HomePageProps {
   categories: Category[]
+  recentPosts: Post[]
 }
 
 const HomeSearchBar = () => {
@@ -57,7 +61,7 @@ const HomeSearchBar = () => {
   )
 }
 
-const Home: NextPage<HomePageProps> = ({ categories }) => {
+const Home: NextPage<HomePageProps> = ({ categories, recentPosts }) => {
   return (
     <>
       <Head>
@@ -75,6 +79,8 @@ const Home: NextPage<HomePageProps> = ({ categories }) => {
         <Warning text="Nigdy nie podawaj danych karty bankowej, aby otrzymać pieniądze za przedmiot sprzedany z przesyłką OLX!" />
 
         <CategoryList categories={categories} />
+
+        <RecentPosts posts={recentPosts} />
       </main>
 
       <Footer showBusiness={true} />
@@ -87,9 +93,34 @@ const Home: NextPage<HomePageProps> = ({ categories }) => {
 export const getServerSideProps = async () => {
   const categories = await fetchCategories()
 
+  const recentPosts = await prisma.post.findMany({
+    where: {
+      status: "ACTIVE",
+    },
+
+    select: {
+      id: true,
+      slug: true,
+
+      title: true,
+      city: true,
+
+      price: true,
+
+      category: {
+        select: {
+          name: true,
+        },
+      },
+    },
+
+    take: 16,
+  })
+
   return {
     props: {
       categories,
+      recentPosts,
     },
   }
 }
