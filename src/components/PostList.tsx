@@ -177,7 +177,7 @@ const PostList = ({
             <div>
               <h2 className="text-3xl font-bold">Brak ogłoszeń</h2>
               <p className="text-lg">
-                Nie udało się tam znaleźć żadnego ogłoszenia, które pasuje do
+                Nie udało się nam znaleźć żadnego ogłoszenia, które pasuje do
                 Twojego wyszukiwania!
               </p>
             </div>
