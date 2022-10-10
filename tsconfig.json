@@ -23,6 +23,7 @@
       "@/server/*": ["./src/server/*"],
       "@/types/*": ["./src/types/*"],
       "@/utils/*": ["./src/utils/*"],
+      "@/hooks/*": ["./src/hooks/*"],
       "@/public/*": ["./public/*"]
     }
   },
