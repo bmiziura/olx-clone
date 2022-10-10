@@ -1,4 +1,5 @@
 import NextAuth, { type NextAuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 
@@ -32,6 +33,41 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+
+      credentials: {
+        username: {
+          label: "Email Address",
+          type: "text",
+          placeholder: "Email Address",
+        },
+        password: { label: "Password", type: "password" },
+      },
+
+      async authorize(credentials, req) {
+        const user = prisma.user.findFirst({
+          where: {
+            email: "demo@example.com",
+          },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            image: true,
+            role: true,
+          },
+        })
+
+        if (!user) return null
+
+        if (credentials?.password !== "demo123") {
+          return null
+        }
+
+        return user
+      },
     }),
   ],
 
