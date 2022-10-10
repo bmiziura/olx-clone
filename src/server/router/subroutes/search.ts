@@ -19,6 +19,8 @@ export const searchRouter = createRouter().query(":searchPosts", {
           mode: "insensitive",
         },
         category: category === "all" ? {} : { slug: category },
+
+        status: "ACTIVE",
       },
       select: {
         id: true,
