@@ -32,13 +32,15 @@ const Header = () => {
 
           <nav>
             <ul className="flex gap-8 items-center">
-              <li>
-                <HeaderItem
-                  text="ACP"
-                  href="/admincp"
-                  icon={<HiOutlineArchive className="w-6 h-6" />}
-                />
-              </li>
+              {session?.user?.role === "ADMIN" && (
+                <li>
+                  <HeaderItem
+                    text="ACP"
+                    href="/admincp"
+                    icon={<HiOutlineArchive className="w-6 h-6" />}
+                  />
+                </li>
+              )}
               <li>
                 <HeaderItem
                   text="Wiadomości"
