@@ -10,7 +10,7 @@ const Warning = ({ text }: { text: string }) => {
   if (closed) return <></>
 
   return (
-    <div className="container mx-auto my-6 bg-yellow-50">
+    <div className="container mx-auto mb-6 bg-yellow-50">
       <div className="flex gap-4 justify-between items-center px-4 py-2">
         <div className="flex gap-4 items-center">
           <div className="relative h-8 w-8">
