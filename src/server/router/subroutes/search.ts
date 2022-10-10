@@ -1,6 +1,8 @@
 import { z } from "zod"
 import { createRouter } from "../context"
 
+import { prisma } from "@/server/db/client"
+
 export const searchRouter = createRouter().query(":searchPosts", {
   input: z.object({
     searchText: z.string(),

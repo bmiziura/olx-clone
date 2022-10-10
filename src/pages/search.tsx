@@ -36,7 +36,7 @@ const SearchPage: NextPage = () => {
   }
 
   useEffect(() => {
-    // updateSearchPath(debouncedOptions, false)
+    updateSearchPath(debouncedOptions, false)
   }, [debouncedOptions])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
