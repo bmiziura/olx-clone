@@ -11,11 +11,13 @@ import MobileNavigation from "@/components/ui/mobile/MobileNavigation"
 import MobilePageContainer from "@/components/ui/mobile/MobilePageContainer"
 import TabNavigation from "@/components/ui/TabNavigation"
 import { trpc } from "@/utils/trpc"
+import { PostStatus } from "@prisma/client"
 import { NextPage } from "next"
 import { signOut, useSession } from "next-auth/react"
 import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 import {
   MdChatBubbleOutline,
   MdFavoriteBorder,
@@ -158,6 +160,18 @@ export const PostsList = ({ status = "ACTIVE" }: { status: any }) => {
     }
   )
 
+  const { data: mutateStatusData, mutate: mutateStatus } = trpc.useMutation([
+    "posts:changeStatus",
+  ])
+
+  const { data: mutateDeleteData, mutate: mutateDelete } = trpc.useMutation([
+    "posts:deletePost",
+  ])
+
+  useEffect(() => {
+    refetch()
+  }, [mutateStatusData, mutateDeleteData])
+
   if (isLoading || isRefetching) {
     return (
       <div className="container mx-auto mt-4 flex items-center justify-center">
@@ -195,6 +209,19 @@ export const PostsList = ({ status = "ACTIVE" }: { status: any }) => {
         <DarkButton onClick={() => refetch()}>Spróbuj jeszcze raz</DarkButton>
       </div>
     )
+  }
+
+  const changeStatus = async (id: string, status: PostStatus) => {
+    await mutateStatus({
+      id,
+      status,
+    })
+  }
+
+  const deletePost = async (id: string) => {
+    await mutateDelete({
+      id,
+    })
   }
 
   return (
@@ -282,12 +309,48 @@ export const PostsList = ({ status = "ACTIVE" }: { status: any }) => {
                     </span>
                     <div className="flex gap-8 w-full md:w-fit items-center md:items-start justify-between md:justify-start">
                       <DarkButton width="w-full md:w-fit">Edytuj</DarkButton>
-                      <DarkButton width="hidden md:block">Usuń</DarkButton>
+                      {status === "ENDED" && (
+                        <DarkButton
+                          width="hidden md:block"
+                          onClick={() => changeStatus(post.id, "PENDING")}
+                        >
+                          Aktywuj
+                        </DarkButton>
+                      )}
+                      {status !== "ENDED" ? (
+                        <DarkButton
+                          width="hidden md:block"
+                          onClick={() => changeStatus(post.id, "ENDED")}
+                        >
+                          Zakończ
+                        </DarkButton>
+                      ) : (
+                        <DarkButton
+                          width="hidden md:block"
+                          onClick={() => deletePost(post.id)}
+                        >
+                          Usuń
+                        </DarkButton>
+                      )}
+
                       <div className="md:hidden">
                         <MobileMoreContent
                           icon={<MdMoreHoriz className="w-8 h-8" />}
                         >
-                          <div>Usuń</div>
+                          {status === "ENDED" && (
+                            <div
+                              onClick={() => changeStatus(post.id, "PENDING")}
+                            >
+                              Aktywuj
+                            </div>
+                          )}
+                          {status !== "ENDED" ? (
+                            <div onClick={() => changeStatus(post.id, "ENDED")}>
+                              Zakończ
+                            </div>
+                          ) : (
+                            <div onClick={() => deletePost(post.id)}>Usuń</div>
+                          )}
                         </MobileMoreContent>
                       </div>
                     </div>

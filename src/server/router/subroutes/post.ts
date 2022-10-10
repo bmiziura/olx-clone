@@ -62,6 +62,90 @@ export const postRouter = createProtectedRouter()
       return posts
     },
   })
+  .mutation(":deletePost", {
+    input: z.object({
+      id: z.string(),
+    }),
+
+    async resolve({ ctx, input }) {
+      const { id } = input
+
+      const post = await prisma?.post.findFirst({
+        where: {
+          id,
+          userId: ctx.session.user.id,
+        },
+      })
+
+      if (!post) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "Nie odnaleziono takiego ogłoszenia lub to ogłoszenie nie należy do Ciebie!",
+        })
+      }
+
+      const posts = await prisma?.post.deleteMany({
+        where: {
+          id,
+          userId: ctx.session.user.id,
+        },
+      })
+
+      return {
+        ok: true,
+        deletedPosts: posts,
+      }
+    },
+  })
+  .mutation(":changeStatus", {
+    input: z.object({
+      id: z.string(),
+      status: z.nativeEnum(PostStatus),
+    }),
+
+    async resolve({ ctx, input }) {
+      const { id, status } = input
+
+      if (status === "ACTIVE") {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Nie możesz zamieniać ogłoszenia na ten status!",
+        })
+      }
+
+      const post = await prisma?.post.findFirst({
+        where: {
+          id,
+          userId: ctx.session.user.id,
+        },
+      })
+
+      if (!post) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "Nie odnaleziono takiego ogłoszenia lub to ogłoszenie nie należy do Ciebie!",
+        })
+      }
+
+      const posts = await prisma?.post.updateMany({
+        where: {
+          id,
+          userId: ctx.session.user.id,
+        },
+
+        data: {
+          status,
+        },
+      })
+
+      return {
+        ok: true,
+        posts,
+      }
+    },
+  })
   .mutation(":newPost", {
     input: z.object({
       title: z
@@ -92,7 +176,6 @@ export const postRouter = createProtectedRouter()
       })
 
       if (!foundCategory) {
-        console.log("not found!")
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Nie odnaleziono takiej kategorii!",

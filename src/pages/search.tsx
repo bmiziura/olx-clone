@@ -25,14 +25,18 @@ const SearchPage: NextPage = () => {
   const debouncedOptions = useDebounce<SearchOptions>(searchOptions, 1000)
 
   const updateSearchPath = (options: SearchOptions, fromSubmit: boolean) => {
-    router.push({
-      pathname: "/search",
-      query: {
-        searchText: options.text,
-        fromSubmit,
-        category: category,
+    router.push(
+      {
+        pathname: "/search",
+        query: {
+          searchText: options.text,
+          fromSubmit,
+          category: category,
+        },
       },
-    })
+      undefined,
+      { shallow: true }
+    )
   }
 
   useEffect(() => {
