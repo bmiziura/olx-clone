@@ -134,7 +134,7 @@ export const TextArea = ({
         )}
 
         {children && (
-          <div className="hidden group-focus-within:block absolute right-0 top-0 translate-x-[105%] w-fit max-w-[350px]">
+          <div className="hidden md:group-focus-within:block absolute right-0 top-0 translate-x-[105%] w-fit max-w-[350px] z-[99999] overflow-x-hidden">
             <div className="bg-blue-400 p-2 text-[0.7rem] leading-[0.95rem] text-white">
               {children}
             </div>
